@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web;
+using System.Web.Mvc;
 using Oba30.Infrastructure;
 using Oba30.Models;
 
@@ -18,6 +20,17 @@ namespace Oba30.Controllers
             var viewModel = new ListViewModel(_blogRepository, pageNo);
 
             ViewBag.Title = "Latest Posts";
+            return View("List", viewModel);
+        }
+
+        public ViewResult Category(string category, int p = 1)
+        {
+            var viewModel = new ListViewModel(_blogRepository, category, p);
+
+            if(viewModel.Category == null)
+                throw new HttpException(404, "Category not Found");
+
+            ViewBag.Title = String.Format(@"Latest posts on category ""{0}""", viewModel.Category.Name);
             return View("List", viewModel);
         }
 

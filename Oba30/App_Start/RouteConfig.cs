@@ -10,10 +10,16 @@ namespace Oba30
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-                name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Blog", action = "Posts", id = UrlParameter.Optional }
+                name: "Action",
+                url: "{action}",
+                defaults: new { controller = "Blog", action = "Posts"}
             );
+
+            routes.MapRoute(
+                "Category",
+                "Category/{category}",
+                new {controller = "Blog", action = "Category"}
+                );
         }
     }
 }
