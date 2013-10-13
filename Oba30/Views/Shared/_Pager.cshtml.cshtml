@@ -15,7 +15,7 @@
 @if (currentPage > 1 || currentPage < totalPages)
 {
     var p = string.Format("p={0}", currentPage - 1);
-    var n = string.Format("n={0}", currentPage + 1);
+    var n = string.Format("p={0}", currentPage + 1);
     
     @* If the view is rendered for "search" action append the pagination value with "&" *@
 

@@ -13,7 +13,7 @@ namespace Oba30.Controllers
             _blogRepository = blogRepository;
         }
 
-        public ViewResult Posts(int pageNo =2)
+        public ViewResult Posts(int pageNo = 1)
         {
             var viewModel = new ListViewModel(_blogRepository, pageNo);
 
