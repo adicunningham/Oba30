@@ -1,4 +1,5 @@
-﻿@model Oba30.Infrastructure.Core.Post
+﻿@using Oba30
+@model Oba30.Infrastructure.Objects.Post
 
 <div class="post">
     <div class="post-meta">
@@ -18,7 +19,7 @@
             
                 <!-- Tags -->
                 <div class="post-tags">
-                    <span>Tags: </span>@BrowserHelpers.Tags(Html, Model.Tags)
+                    <span>Tags: </span>@Helpers.Tags(Html, Model.Tags)
                 </div>
             
                 <!-- Posted Date -->

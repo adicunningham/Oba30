@@ -24,7 +24,7 @@ namespace Oba30.Infrastructure
                                     c => c.FromConnectionStringWithKey("Oba30Db")))
                             .Cache(c => c.UseQueryCache().ProviderClass<HashtableCacheProvider>())
                             .Mappings(m => m.FluentMappings.AddFromAssemblyOf<Post>())
-                            .ExposeConfiguration(cfg => new SchemaExport(cfg).Execute(true, true, false))
+                            //.ExposeConfiguration(cfg => new SchemaExport(cfg).Execute(true, true, false))
                             .BuildConfiguration()
                             .BuildSessionFactory()
                 ).InSingletonScope();
