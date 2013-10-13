@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oba30", "Oba30\Oba30.csproj", "{B34798AD-C819-4BCB-8645-3B2733176AA9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oba30.Tests", "Oba30.Tests\Oba30.Tests.csproj", "{E097DB6C-2308-4F1E-AD53-21C84CBDFD6A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oba30.Infrastructure", "Oba30.Infrastructure\Oba30.Infrastructure.csproj", "{286E359A-4F88-4DC6-A22F-A01F5EB31F10}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B34798AD-C819-4BCB-8645-3B2733176AA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B34798AD-C819-4BCB-8645-3B2733176AA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B34798AD-C819-4BCB-8645-3B2733176AA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B34798AD-C819-4BCB-8645-3B2733176AA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E097DB6C-2308-4F1E-AD53-21C84CBDFD6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E097DB6C-2308-4F1E-AD53-21C84CBDFD6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E097DB6C-2308-4F1E-AD53-21C84CBDFD6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E097DB6C-2308-4F1E-AD53-21C84CBDFD6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{286E359A-4F88-4DC6-A22F-A01F5EB31F10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{286E359A-4F88-4DC6-A22F-A01F5EB31F10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{286E359A-4F88-4DC6-A22F-A01F5EB31F10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{286E359A-4F88-4DC6-A22F-A01F5EB31F10}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

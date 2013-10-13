@@ -1,0 +1,52 @@
+﻿
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>@ViewBag.Title</title>
+    
+        <!-- Stylesheets -->
+        <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/themes/simple/style.css")"/>
+    </head>
+
+<body>
+    <div id="main">
+        
+        <!-- Header -->
+        <div id="header">
+            <div id="logo">
+                <div id="logo_text">
+                    <h1><a href="/">OBA <span class="logo_colour">Constituency #30</span></a></h1>
+                    <h2>Newsletters, Information, FAQs and More...</h2>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Navigation -->
+        <div id="menuBar">
+            <ul id="menu">
+               
+                
+                
+                
+                <li>@Html.ActionLink("Posts", "Posts")</li>
+                <li>@Html.ActionLink("FAQs", "Faqs")></li>
+                <li>@Html.ActionLink("Contact", "Contact")</li>
+                <li>@Html.ActionLink("About Consituency #30", "About")</li>
+            </ul>
+        </div>
+        
+        <!-- Site Content -->
+        <div id="site_content">
+            @RenderBody()
+        </div>
+        
+        <!-- Footer -->
+        <div id="footer">
+            Copyright © @DateTime.Now.Year JustBlog All Rights Reserved 
+        </div>
+    </div>
+
+</body>
+</html>
