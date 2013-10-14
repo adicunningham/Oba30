@@ -47,6 +47,12 @@ namespace Oba30.Controllers
 
         }
 
+        /// <summary>
+        /// Search action to find Posts by search term.
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="p"></param>
+        /// <returns></returns>
         public ViewResult Search(string s, int p = 1)
         {
             ViewBag.Title = String.Format(@"Lists of posts found for search text ""{0}""", s);
@@ -55,5 +61,24 @@ namespace Oba30.Controllers
             return View("List", viewModel);
         }
 
+        /// <summary>
+        /// Post action to return post by year, month and title
+        /// </summary>
+        /// <param name="year"></param>
+        /// <param name="month"></param>
+        /// <param name="title"></param>
+        /// <returns></returns>
+        public ViewResult Post(int year, int month, string title)
+        {
+            var post = _blogRepository.Post(year, month, title);
+
+            if (post == null)
+                throw new HttpException(404, "Post not found");
+
+            if(post.Published == false && User.Identity.IsAuthenticated == false)
+                throw new HttpException(401, "The post is not published");
+
+            return View(post);
+        }
     }
 }
