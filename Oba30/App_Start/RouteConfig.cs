@@ -20,6 +20,12 @@ namespace Oba30
                 "Category/{category}",
                 new {controller = "Blog", action = "Category"}
                 );
+
+            routes.MapRoute(
+                "Tag",
+                "Tag/{Tag}",
+                new {controller = "Blog", action = "Tag"}
+                );
         }
     }
 }
