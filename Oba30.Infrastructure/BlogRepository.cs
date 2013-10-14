@@ -89,5 +89,29 @@ namespace Oba30.Infrastructure
             return _session.Query<Tag>()
                 .FirstOrDefault(t => t.UrlSlug.Equals(tagslug));
         }
+
+
+        public IList<Post> PostsForSearch(string search, int pageNo, int pageSize)
+        {
+            var query = _session.Query<Post>()
+                .Where(p => p.Published && (p.Title.Contains(search)
+                                            || p.Category.Name.Equals(search)
+                                            || p.Tags.Any(t => t.Name.Equals(search))))
+                .OrderByDescending(p => p.PostedOn)
+                .Skip(pageNo*pageSize)
+                .Take(pageSize)
+                .Fetch(p => p.Category);
+
+            query.FetchMany(p => p.Tags).ToFuture();
+
+            return query.ToFuture().ToList();
+        }
+
+        public int TotalPostsForSearch(string search)
+        {
+            return _session.Query<Post>().Count(p => p.Published &&
+                                                     (p.Title.Contains(search) || p.Category.Name.Equals(search) ||
+                                                      p.Tags.Any(t => t.Name.Equals(search))));
+        }
     }
 }

@@ -20,5 +20,8 @@ namespace Oba30.Infrastructure
         int TotalPostsForTag(string tagSlug);
         Tag Tag(string tagslug);
 
+        // Search for posts
+        IList<Post> PostsForSearch(string search, int pageNo, int pageSize);
+        int TotalPostsForSearch(string search);
     }
 }

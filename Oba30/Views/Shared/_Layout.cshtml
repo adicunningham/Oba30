@@ -26,10 +26,6 @@
         <!-- Navigation -->
         <div id="menuBar">
             <ul id="menu">
-               
-                
-                
-                
                 <li>@Html.ActionLink("Posts", "Posts")</li>
                 <li>@Html.ActionLink("FAQs", "Faqs")></li>
                 <li>@Html.ActionLink("Contact", "Contact")</li>
@@ -39,12 +35,16 @@
         
         <!-- Site Content -->
         <div id="site_content">
+            @Html.Partial("_Search")
             @RenderBody()
         </div>
         
         <!-- Footer -->
         <div id="footer">
             Copyright © @DateTime.Now.Year JustBlog All Rights Reserved 
+            
+            <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.2.min.js"></script>
+            <script src="@Url.Content("~/Scripts/app.js")"></script>    
         </div>
     </div>
 

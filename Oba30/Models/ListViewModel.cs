@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Web.UI.WebControls.Expressions;
 using System.Web.WebPages;
 using Oba30.Infrastructure;
 using Oba30.Infrastructure.Objects;
@@ -22,10 +23,15 @@ namespace Oba30.Models
                     TotalPosts = blogRepository.TotalPostsForTag(text);
                     Tag = blogRepository.Tag(text);
                     break;
-                default:
+                case "Category":
                     Posts = blogRepository.PostsForCategory(text, p - 1, 10);
                     TotalPosts = blogRepository.TotalPostsForCategory(text);
                     Category = blogRepository.Category(text);
+                    break;
+                default:
+                    Posts = blogRepository.PostsForSearch(text, p - 1, 10);
+                    TotalPosts = blogRepository.TotalPostsForSearch(text);
+                    Search = text;
                     break;
             }
             
@@ -35,5 +41,6 @@ namespace Oba30.Models
         public int TotalPosts { get; private set; }
         public Category Category { get; private set; }
         public Tag Tag { get; private set; }
+        public string Search { get; private set; }
     }
 }
