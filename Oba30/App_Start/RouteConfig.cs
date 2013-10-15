@@ -9,11 +9,6 @@ namespace Oba30
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapRoute(
-                name: "Action",
-                url: "{action}",
-                defaults: new { controller = "Blog", action = "Posts"}
-            );
 
             routes.MapRoute(
                 "Category",
@@ -32,6 +27,19 @@ namespace Oba30
                 "Archive/{year}/{month}/{title}",
                 new {controller = "Blog", action = "Post"}
             );
+
+            routes.MapRoute(
+                "Login",
+                "Login",
+                new {controller = "Admin", action = "Login"}
+            );
+
+            routes.MapRoute(
+                name: "Action",
+                url: "{action}",
+                defaults: new { controller = "Blog", action = "Posts"}
+            );
+
         }
     }
 }

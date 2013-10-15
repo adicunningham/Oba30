@@ -18,7 +18,7 @@ namespace Oba30
                 {
                     year = post.PostedOn.Year,
                     month = post.PostedOn.Month,
-                    day = post.PostedOn.Day
+                    title = post.UrlSlug
                 },
                 new { title = post.Tags});
         }
