@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using NHibernate.Dialect;
 using Oba30.Infrastructure.Objects;
 
@@ -25,5 +26,12 @@ namespace Oba30.Infrastructure
         int TotalPostsForSearch(string search);
 
         Post Post(int year, int month, string titleSlug);
+
+        // Return all categories
+        IList<Category> Categories();
+
+        // Return all tags
+        IList<Tag> Tags();
+
     }
 }

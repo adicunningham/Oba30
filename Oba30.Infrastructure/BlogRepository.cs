@@ -188,5 +188,24 @@ namespace Oba30.Infrastructure
 
             return query.ToFuture().FirstOrDefault();
         }
+
+
+        /// <summary>
+        /// Returns a list of categories
+        /// </summary>
+        /// <returns></returns>
+        public IList<Category> Categories()
+        {
+            return _session.Query<Category>().OrderBy(p => p.Name).ToList();
+        }
+
+        /// <summary>
+        /// Returns a list of Tags
+        /// </summary>
+        /// <returns></returns>
+        public IList<Tag> Tags()
+        {
+            return _session.Query<Tag>().OrderBy(p => p.Name).ToList();
+        }
     }
 }
