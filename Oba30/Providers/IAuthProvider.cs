@@ -8,7 +8,7 @@ namespace Oba30.Providers
 {
     public interface IAuthProvider
     {
-        bool IsLoggiedIn { get; }
+        bool IsLoggedIn { get; }
         bool Login(string username, string password);
         void Logout();
     }

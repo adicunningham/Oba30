@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
+﻿using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using NUnit.Framework;
@@ -36,7 +30,7 @@ namespace Oba30.Tests
         public void Login_IsLogged_True_Test()
         {
             // arrange
-            _authProvider.Stub(s => s.IsLoggiedIn).Return(true);
+            _authProvider.Stub(s => s.IsLoggedIn).Return(true);
             
             // act
             var actual = _adminController.Login("/admin/manage");
@@ -63,7 +57,7 @@ namespace Oba30.Tests
         public void Login_Post_User_Invalid_Test()
         {
             // arrange
-            var model = new LoginModel()
+            var model = new LoginModel
             {
                 UserName = "invaliduser",
                 Password = "password"
@@ -86,7 +80,7 @@ namespace Oba30.Tests
         public void Login_Post_User_Valid_Test()
         {
             // arrange
-            var model = new LoginModel()
+            var model = new LoginModel
             {
                 UserName = "validuser",
                 Password = "password"

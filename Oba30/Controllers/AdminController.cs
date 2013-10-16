@@ -27,7 +27,7 @@ namespace Oba30.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            if (_authProvider.IsLoggiedIn)
+            if (_authProvider.IsLoggedIn)
             {
                 return Redirect(returnUrl);
             }

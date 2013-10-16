@@ -36,6 +36,18 @@ namespace Oba30
             );
 
             routes.MapRoute(
+                "Manage",
+                "Manage",
+                new {controller = "Admin", action = "Manage"}
+                );
+
+            routes.MapRoute(
+                "AdminAction",
+                "Admin/{action}",
+                new {controller = "Admin", action = "Login"}
+                );
+
+            routes.MapRoute(
                 "Logout",
                 "Logout",
                 new { controller = "Admin", action = "Logout"});

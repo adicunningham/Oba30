@@ -8,7 +8,7 @@ namespace Oba30.Providers
 {
     public class AuthProvider : IAuthProvider
     {
-        public bool IsLoggiedIn
+        public bool IsLoggedIn
         {
             get
             {
