@@ -45,9 +45,11 @@ namespace Oba30.Infrastructure
         /// Returns total number of posts
         /// </summary>
         /// <returns></returns>
-        public int TotalPosts()
+        public int TotalPosts(bool checkIsPublished = true)
         {
-            return _session.Query<Post>().Where(p => p.Published).Count();
+            return _session.Query<Post>()
+                .Where(p => checkIsPublished || p.Published == true)
+                .Count();
         }
 
         /// <summary>
@@ -206,6 +208,108 @@ namespace Oba30.Infrastructure
         public IList<Tag> Tags()
         {
             return _session.Query<Tag>().OrderBy(p => p.Name).ToList();
+        }
+
+
+        /// <summary>
+        /// Posts for Admin Controller
+        /// </summary>
+        /// <param name="pageNo"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="sortColumn"></param>
+        /// <param name="sortByAscending"></param>
+        /// <returns></returns>
+        public IList<Post> Posts(int pageNo, int pageSize, string sortColumn, bool sortByAscending)
+        {
+            IQueryable<Post> query = null;
+
+            switch (sortColumn)
+            {
+                case "Title":
+                    if (sortByAscending)
+                        query = _session.Query<Post>()
+                            .OrderBy(p => p.Title)
+                            .Skip(pageNo*pageSize)
+                            .Take(pageSize)
+                            .Fetch(p => p.Category);
+                    else
+                    {
+                        query = _session.Query<Post>()
+                            .OrderByDescending(p => p.Title)
+                            .Skip(pageNo*pageSize)
+                            .Take(pageSize)
+                            .Fetch(p => p.Category);
+                    }
+                    break;
+                case "Published":
+                    if (sortByAscending)
+                        query = _session.Query<Post>()
+                            .OrderBy(p => p.Published)
+                            .Skip(pageNo*pageSize)
+                            .Take(pageSize)
+                            .Fetch(p => p.Category);
+                    else
+                    {
+                        query = _session.Query<Post>()
+                            .OrderByDescending(p => p.Published)
+                            .Skip(pageNo*pageSize)
+                            .Take(pageSize)
+                            .Fetch(p => p.Category);
+                    }
+                    break;
+                case "PostedOn":
+                    if (sortByAscending)
+                        query = _session.Query<Post>()
+                            .OrderBy(p => p.PostedOn)
+                            .Skip(pageNo*pageSize)
+                            .Take(pageSize)
+                            .Fetch(p => p.Category);
+                    else
+                    {
+                        query = _session.Query<Post>()
+                            .OrderByDescending(p => p.PostedOn)
+                            .Skip(pageNo*pageSize)
+                            .Take(pageSize)
+                            .Fetch(p => p.Category);
+                    }
+                    break;
+                case "Modified":
+                    if (sortByAscending)
+                        query = _session.Query<Post>()
+                            .OrderBy(p => p.ModifiedOn)
+                            .Skip(pageNo*pageSize)
+                            .Take(pageSize)
+                            .Fetch(p => p.Category);
+                    else
+                    {
+                        query = _session.Query<Post>()
+                            .OrderByDescending(p => p.ModifiedOn)
+                            .Skip(pageNo*pageSize)
+                            .Take(pageSize)
+                            .Fetch(p => p.Category);
+                    }
+                    break;
+                case "Category":
+                    if (sortByAscending)
+                        query = _session.Query<Post>()
+                            .OrderBy(p => p.Category)
+                            .Skip(pageNo*pageSize)
+                            .Take(pageSize)
+                            .Fetch(p => p.Category);
+                    else
+                    {
+                        query = _session.Query<Post>()
+                            .OrderByDescending(p => p.Category)
+                            .Skip(pageNo*pageSize)
+                            .Take(pageSize)
+                            .Fetch(p => p.Category);
+                    }
+                    break;
+            }
+
+            query.FetchMany(p => p.Tags).ToFuture();
+
+            return query.ToFuture().ToList();
         }
     }
 }

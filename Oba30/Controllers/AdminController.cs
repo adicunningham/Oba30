@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.Security;
+using Newtonsoft.Json;
+using Oba30.Infrastructure;
 using Oba30.Models;
 using Oba30.Providers;
 
@@ -13,10 +11,12 @@ namespace Oba30.Controllers
     public class AdminController : Controller
     {
         private readonly IAuthProvider _authProvider;
+        private readonly IBlogRepository _blogRepository;
 
-        public AdminController(IAuthProvider authProvider)
+        public AdminController(IAuthProvider authProvider, IBlogRepository blogRepository)
         {
             _authProvider = authProvider;
+            _blogRepository = blogRepository;
         }
 
         /// <summary>
@@ -60,10 +60,7 @@ namespace Oba30.Controllers
             {
                 return Redirect(returnUrl);
             }
-            else
-            {
-                return RedirectToAction("Manage");
-            }
+            return RedirectToAction("Manage");
         }
 
         public ActionResult Manage()
@@ -81,5 +78,26 @@ namespace Oba30.Controllers
 
             return RedirectToAction("Login", "Admin");
         }
+
+        #region Posts
+
+        public ContentResult Posts(JqInViewModel jqParams)
+        {
+            var posts = _blogRepository.Posts(jqParams.page - 1, jqParams.rows, jqParams.sidx, jqParams.sord == "asc");
+            var totalPosts = _blogRepository.TotalPosts(false);
+
+            return Content(JsonConvert.SerializeObject(new 
+            {
+                page = jqParams.page,
+                records = totalPosts,
+                rows = posts,
+                total = Math.Ceiling(Convert.ToDouble(totalPosts)/jqParams.rows)
+            }), "application/json");
+
+
+        }
+
+        #endregion
+
     }
 }

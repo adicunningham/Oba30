@@ -9,7 +9,7 @@ namespace Oba30.Infrastructure
     {
         // Get Posts
         IList<Post> Posts(int pageNo, int pageSize);
-        int TotalPosts();
+        int TotalPosts(bool checkIsPublished = true);
 
         // Get posts by category
         IList<Post> PostsForCategory(string categorySlug, int pageNo, int pageSize);
@@ -32,6 +32,10 @@ namespace Oba30.Infrastructure
 
         // Return all tags
         IList<Tag> Tags();
+
+        
+        IList<Post> Posts(int pageNo, int pageSize, string sortColumn, bool sortByAscending);
+
 
     }
 }
