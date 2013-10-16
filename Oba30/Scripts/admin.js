@@ -1,4 +1,5 @@
 ﻿$(function()
 {
+ 
     $("#tabs").tabs();
 });
