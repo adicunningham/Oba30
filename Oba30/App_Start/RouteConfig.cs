@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using System.Web.Routing;
+using Ninject.Infrastructure.Language;
 
 namespace Oba30
 {
@@ -33,6 +34,11 @@ namespace Oba30
                 "Login",
                 new {controller = "Admin", action = "Login"}
             );
+
+            routes.MapRoute(
+                "Logout",
+                "Logout",
+                new { controller = "Admin", action = "Logout"});
 
             routes.MapRoute(
                 name: "Action",

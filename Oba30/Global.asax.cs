@@ -3,6 +3,7 @@ using System.Web.Routing;
 using Ninject;
 using Ninject.Web.Common;
 using Oba30.Infrastructure;
+using Oba30.Providers;
 
 namespace Oba30
 {
@@ -25,6 +26,7 @@ namespace Oba30
 
             kernel.Load(new RepositoryModule());
             kernel.Bind<IBlogRepository>().To<BlogRepository>();
+            kernel.Bind<IAuthProvider>().To<AuthProvider>();
 
             return kernel;
         }
