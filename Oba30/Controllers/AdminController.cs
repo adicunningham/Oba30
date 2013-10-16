@@ -56,13 +56,13 @@ namespace Oba30.Controllers
 
         private ActionResult RedirectToUrl(string returnUrl)
         {
-            if (Url.IsLocalUrl())
+            if (Url.IsLocalUrl(returnUrl))
             {
                 return Redirect(returnUrl);
             }
             else
             {
-                RedirectToAction("Manage");
+                return RedirectToAction("Manage");
             }
         }
 
