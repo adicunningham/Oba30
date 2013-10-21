@@ -13,10 +13,9 @@ namespace Oba30.Controllers
         private readonly IAuthProvider _authProvider;
         private readonly IBlogRepository _blogRepository;
 
-        public AdminController(IAuthProvider authProvider, IBlogRepository blogRepository)
+        public AdminController(IAuthProvider authProvider, IBlogRepository blogRepository = null)
         {
             _authProvider = authProvider;
-            _blogRepository = blogRepository;
         }
 
         /// <summary>

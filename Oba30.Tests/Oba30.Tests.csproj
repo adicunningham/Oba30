@@ -120,6 +120,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Oba30.Infrastructure\Oba30.Infrastructure.csproj">
+      <Project>{286e359a-4f88-4dc6-a22f-a01f5eb31f10}</Project>
+      <Name>Oba30.Infrastructure</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Oba30\Oba30.csproj">
       <Project>{B34798AD-C819-4BCB-8645-3B2733176AA9}</Project>
       <Name>Oba30</Name>
