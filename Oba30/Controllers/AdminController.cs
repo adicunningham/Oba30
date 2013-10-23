@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using Oba30.Infrastructure;
+using Oba30.Infrastructure.Objects;
 using Oba30.Models;
 using Oba30.Providers;
 
@@ -79,8 +80,13 @@ namespace Oba30.Controllers
             return RedirectToAction("Login", "Admin");
         }
 
-        #region Posts
+        #region Admin Posts
 
+        /// <summary>
+        /// Returns Posts in Json.
+        /// </summary>
+        /// <param name="jqParams">Input parameters from the JQGrid.</param>
+        /// <returns></returns>
         public ContentResult Posts(JqInViewModel jqParams)
         {
             var posts = _blogRepository.Posts(jqParams.page - 1, jqParams.rows, jqParams.sidx, jqParams.sord == "asc");
@@ -93,10 +99,36 @@ namespace Oba30.Controllers
                 rows = posts,
                 total = Math.Ceiling(Convert.ToDouble(totalPosts)/jqParams.rows)
             }), "application/json");
-
-
         }
 
+        [HttpPost]
+        public ContentResult AddPost(Post post)
+        {
+            string json;
+
+            if (ModelState.IsValid)
+            {
+                var id = _blogRepository.AddPost(post);
+
+                json = JsonConvert.SerializeObject(new
+                {
+                    id = id,
+                    success = true,
+                    message = "Post added successfully."
+                });
+            }
+            else
+            {
+                json = JsonConvert.SerializeObject(new
+                {
+                    id = 0,
+                    success = false,
+                    message = "Failed to add the post."
+                });
+            }
+
+            return Content(json, "application/json");
+        }
         #endregion
 
     }

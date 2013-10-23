@@ -7,7 +7,6 @@
         // function to create grid to manage posts
         postsGrid: function(gridName, pagerName)
         {
-            alert("Hello");
             // columns
             var colNames =
             [
@@ -38,7 +37,17 @@
                 {
                     name: 'Title',
                     index: 'Title',
-                    width: 250
+                    width: 250,
+                    editable: true,
+                    editoptions:
+                    {
+                        size: 43,
+                        maxlenght: 500
+                    },
+                    editrules:
+                    {
+                        required: true
+                    }
                 });
 
             columns.push(
@@ -46,7 +55,14 @@
                     name: 'ShortDescription',
                     width: 250,
                     sortable: false,
-                    hidden: true
+                    hidden: true,
+                    editable: true,
+                    edittype: 'textarea',
+                    editoptions:
+                    {
+                        rows: "10",
+                        cols: "100"
+                    }
                 });
 
             columns.push(
@@ -54,13 +70,32 @@
                     name: 'Description',
                     width: 250,
                     sortable: false,
-                    hidden: true
+                    hidden: true,
+                    editable: true,
+                    edittype: 'textarea',
+                    editoptions:
+                    {
+                        rows: "40",
+                        cols: "100"
+                    }
                 });
 
             columns.push(
                 {
                     name: 'Category.CategoryId',
-                    hidden: true
+                    hidden: true,
+                    editable: true,
+                    edittype: 'select',
+                    editoptions:
+                    {
+                        style: 'width:250px',
+                        dataUrl: '/Admin/GetCategoriesHtml'
+                    },
+                    editrules:
+                    {
+                        required: true,
+                        edithidden: true
+                    }
                 });
 
             columns.push(
@@ -73,26 +108,69 @@
             columns.push(
                 {
                     name: 'Tags',
-                    width: 150
+                    width: 150,
+                    editable: true,
+                    edittype: 'select',
+                    editoptions:
+                    {
+                        style: 'width:250px',
+                        dataUrl: '/Admin/GetTagsHtml',
+                        multiple: true
+                    },
+                    editrules:
+                    {
+                        required: true
+                    }
                 });
-            
-            columns.push({
+
+            columns.push(
+            {
                 name: 'Meta',
                 width: 250,
-                sortable: false
+                sortable: false,
+                editable: true,
+                edittype: 'textarea',
+                editoptions:
+                {
+                    rows: "2",
+                    cols: "40",
+                    maxlength: 1000
+                },
+                editrules:
+                {
+                    required: true
+                }
             });
 
-            columns.push({
+            columns.push(
+            {
                 name: 'UrlSlug',
                 width: 200,
-                sortable: false
+                sortable: false,
+                editable: true,
+                editoptions:
+                {
+                    size: 43,
+                    maxlength: 200
+                },
+                editrules:
+                {
+                    required: true
+                }
             });
 
             columns.push({
                 name: 'Published',
                 index: 'Published',
                 width: 100,
-                align: 'center'
+                align: 'center',
+                editable: true,
+                edittype: 'checkbox',
+                editoptions:
+                {
+                    value: "true:false",
+                    defaultValue: 'false'
+                }
             });
 
             columns.push({
@@ -120,7 +198,6 @@
                     url: '/Admin/Posts',
                     datatype: 'json',
                     mtype: 'GET',
-
                     height: 'auto',
                     
                     // Columns
@@ -144,9 +221,45 @@
                     // display the no. of records message
                     viewrecord: true,
 
-                    jsonReader: { repeatitems: false }
+                    jsonReader: { repeatitems: false },
+                    
+                    afterInsertRow: function(rowid, rowdata, rowelem)
+                    {
+                        var tags = rowdata["Tags"];
+                        var tagStr = "";
+
+                        $.each(tags, function(i, t)
+                        {
+                            if (tagStr)
+                                tagStr += ", ";
+                            tagStr += t.name;
+                        });
+                    }
                 });
 
+            // configuring add options for jqgrid.
+            var addOptions =
+            {
+                url: '/Admin/AddPost',
+                addCaption: 'Add Post',
+                processData: "Saving...",
+                width: 900,
+                closeAfterAdd: true,
+                closeOnEscape: true
+            };
+
+            // Add navigation toolbar to grid
+            $(gridName).navGrid
+            (   pagerName,
+                {
+                    // settings
+                    cloneToTop: true,
+                    search: false
+                },
+                { }, // edit options
+                addOptions, // add options
+                { }  // delete options
+            );
         },
         
         // function to create grid to manage categories
@@ -167,7 +280,6 @@
             {
                 if (!ui.tab.isLoaded)
                 {
-                    debugger;
                     var gdMgr = Oba30.GridManager, fn, gridName, pagerName;
                     switch(ui.index)
                     {

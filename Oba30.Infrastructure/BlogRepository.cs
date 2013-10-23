@@ -311,5 +311,20 @@ namespace Oba30.Infrastructure
 
             return query.ToFuture().ToList();
         }
+
+        /// <summary>
+        /// Add Post to database
+        /// </summary>
+        /// <param name="post"></param>
+        /// <returns></returns>
+        public int AddPost(Post post)
+        {
+            using (var tran = _session.BeginTransaction())
+            {
+                _session.Save(post);
+                tran.Commit();
+                return post.PostId;
+            }
+        }
     }
 }

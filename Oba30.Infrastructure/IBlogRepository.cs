@@ -34,8 +34,17 @@ namespace Oba30.Infrastructure
         IList<Tag> Tags();
 
         
+        /// <summary>
+        /// Admin Page Posts method.
+        /// </summary>
+        /// <param name="pageNo"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="sortColumn"></param>
+        /// <param name="sortByAscending"></param>
+        /// <returns></returns>
         IList<Post> Posts(int pageNo, int pageSize, string sortColumn, bool sortByAscending);
 
+        int AddPost(Post post);
 
     }
 }
