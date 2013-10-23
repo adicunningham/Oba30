@@ -3,6 +3,8 @@ using System.Web.Routing;
 using Ninject;
 using Ninject.Web.Common;
 using Oba30.Infrastructure;
+using Oba30.Infrastructure.Objects;
+using Oba30.ModelBinder;
 using Oba30.Providers;
 
 namespace Oba30
@@ -35,6 +37,7 @@ namespace Oba30
         {
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+            ModelBinders.Binders.Add(typeof(Post), new PostModelBinder(Kernel));
             base.OnApplicationStarted();
         }
     }

@@ -87,7 +87,7 @@ namespace Oba30.Infrastructure
         }
 
         /// <summary>
-        /// Returns Category
+        /// Returns Category by category slug.
         /// </summary>
         /// <param name="categorySlug"></param>
         /// <returns></returns>
@@ -95,6 +95,17 @@ namespace Oba30.Infrastructure
         {
             return _session.Query<Category>()
                 .FirstOrDefault(t => t.UrlSlug.Equals(categorySlug));
+        }
+
+
+        /// <summary>
+        /// Returns Category by CategoryId
+        /// </summary>
+        /// <param name="categoryId"></param>
+        /// <returns></returns>
+        public Category Category(int categoryId)
+        {
+            return _session.Query<Category>().FirstOrDefault(c => c.CategoryId == categoryId);
         }
 
         /// <summary>
@@ -136,6 +147,16 @@ namespace Oba30.Infrastructure
         {
             return _session.Query<Tag>()
                 .FirstOrDefault(t => t.UrlSlug.Equals(tagslug));
+        }
+
+        /// <summary>
+        /// Returns Tag by TagId
+        /// </summary>
+        /// <param name="tagId"></param>
+        /// <returns></returns>
+        public Tag Tag(int tagId)
+        {
+            return _session.Query<Tag>().FirstOrDefault(t => t.TagId == tagId);
         }
 
         /// <summary>

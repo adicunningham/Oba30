@@ -53,6 +53,7 @@
             columns.push(
                 {
                     name: 'ShortDescription',
+                    index: 'ShortDescription',
                     width: 250,
                     sortable: false,
                     hidden: true,
@@ -62,12 +63,26 @@
                     {
                         rows: "10",
                         cols: "100"
+                    },
+                    editrules:
+                    {
+                        custom: true,
+                        custom_func: function(val, colname)
+                        {
+                            val = tinyMCE.get("ShortDescription").getContent();
+                            if (val)
+                                return [true, ""];
+
+                            return [false, colname + " : Field is required"];
+                        },
+                        edithidden: true
                     }
                 });
 
             columns.push(
                 {
                     name: 'Description',
+                    index: 'Description',
                     width: 250,
                     sortable: false,
                     hidden: true,
@@ -77,6 +92,19 @@
                     {
                         rows: "40",
                         cols: "100"
+                    },
+                    editrules:
+                    {
+                        custom: true,
+                        custom_func: function(val, colname)
+                        {
+                            val = tinyMCE.get("Description").getContent();
+                            if (val)
+                                return [true, ""];
+
+                            return [false, colname + " : Field is required"];
+                        },
+                        edithidden: true,
                     }
                 });
 
@@ -232,10 +260,38 @@
                         {
                             if (tagStr)
                                 tagStr += ", ";
-                            tagStr += t.name;
+                            tagStr += t.Name;
                         });
+
+                        $(gridName).setRowData(rowid, { "Tags": tagStr });
                     }
                 });
+
+            // Create tinyMCE Richtext editors when addPost form shows
+            var afterShowForm = function(form)
+            {
+                tinyMCE.execCommand('mceAddControl', false, "ShortDescription");
+                tinyMCE.execCommand('mceAddControl', false, "Description");
+            };
+            
+            // Remove tinyMCE editiors when form closes
+            var onClose = function(form)
+            {
+                tinyMCE.execCommand('mceRemoveControl', false, "ShortDescription");
+                tinyMCE.execCommand('mceRemoveControl', false, "Description");
+            };
+
+            // Before Submit handler fires to extract data from tinyMCE editor and add to post
+            var beforeSubmitHandler = function(postdata, form)
+            {
+                var selRowData = $(gridName).getRowData($(gridName).getGridParam('selrow'));
+                if (selRowData["PostedOn"])
+                    postdata.PostedOn = selRowData["PostedOn"];
+                postdata.ShortDescription = tinyMCE.get("ShortDescription").getContent();
+                postdata.Description = tinyMCE.get("Description").getContent();
+
+                return [true];
+            };
 
             // configuring add options for jqgrid.
             var addOptions =
@@ -245,7 +301,11 @@
                 processData: "Saving...",
                 width: 900,
                 closeAfterAdd: true,
-                closeOnEscape: true
+                closeOnEscape: true,
+                afterShowForm: afterShowForm,
+                onClose: onClose,
+                beforeSubmit: beforeSubmitHandler,
+                afterSubmit: Oba30.GridManager.afterSubmitHandler
             };
 
             // Add navigation toolbar to grid
@@ -260,6 +320,7 @@
                 addOptions, // add options
                 { }  // delete options
             );
+            
         },
         
         // function to create grid to manage categories
@@ -268,7 +329,19 @@
         
         // function create grid to manage tags
         tagsGrid: function (gridName, pagerName)
-        { }
+        { },
+        
+        // function parses response to get for errors.
+        afterSubmitHandler: function(response, postdata)
+        {
+        var json = $.parseJSON(response.responseText);
+
+        if (json)
+            return [json.success, json.message, json.id];
+
+        return [false, "Failed to get result from server.", null];
+    }
+
     };
     
     

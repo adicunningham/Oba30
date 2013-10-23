@@ -15,11 +15,13 @@ namespace Oba30.Infrastructure
         IList<Post> PostsForCategory(string categorySlug, int pageNo, int pageSize);
         int TotalPostsForCategory(string categorySlug);
         Category Category(string categorySlug);
+        Category Category(int categoryId);
 
         // Get post by tag
         IList<Post> PostsForTag(string tagSlug, int pageNo, int pageSize);
         int TotalPostsForTag(string tagSlug);
         Tag Tag(string tagslug);
+        Tag Tag(int tagId);
 
         // Search for posts
         IList<Post> PostsForSearch(string search, int pageNo, int pageSize);
@@ -29,6 +31,7 @@ namespace Oba30.Infrastructure
 
         // Return all categories
         IList<Category> Categories();
+
 
         // Return all tags
         IList<Tag> Tags();

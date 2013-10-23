@@ -133,6 +133,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\CustomDateTimeConverter.cs" />
+    <Compile Include="ModelBinder\PostModelBinder.cs" />
     <Compile Include="Models\JqInViewModel.cs" />
     <Compile Include="Models\ListViewModel.cs" />
     <Compile Include="Models\LoginModel.cs" />

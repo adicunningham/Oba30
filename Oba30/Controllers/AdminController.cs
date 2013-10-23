@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Linq;
+using System.Text;
 using System.Web.Mvc;
 using Newtonsoft.Json;
+using Oba30.Helper;
 using Oba30.Infrastructure;
 using Oba30.Infrastructure.Objects;
 using Oba30.Models;
@@ -97,16 +100,24 @@ namespace Oba30.Controllers
                 page = jqParams.page,
                 records = totalPosts,
                 rows = posts,
-                total = Math.Ceiling(Convert.ToDouble(totalPosts)/jqParams.rows)
-            }), "application/json");
+                total = Math.Ceiling(Convert.ToDouble(totalPosts)/jqParams.rows),
+            }, new CustomDateTimeConverter()), "application/json");
         }
 
+        /// <summary>
+        /// Adds a new post to the database.
+        /// </summary>
+        /// <param name="post"></param>
+        /// <returns></returns>
         [HttpPost]
+        [ValidateInput(false)]
         public ContentResult AddPost(Post post)
         {
             string json;
 
-            if (ModelState.IsValid)
+            ModelState.Clear();
+
+            if (TryValidateModel(post))
             {
                 var id = _blogRepository.AddPost(post);
 
@@ -129,6 +140,44 @@ namespace Oba30.Controllers
 
             return Content(json, "application/json");
         }
+
+        /// <summary>
+        /// Returns Categories Html for the Categories dropdown on the tinyMCE Add post form.
+        /// </summary>
+        /// <returns></returns>
+        public ContentResult GetCategoriesHtml()
+        {
+            var categories = _blogRepository.Categories().OrderBy(s => s.Name);
+
+            var sb = new StringBuilder();
+            sb.AppendLine(@"<select>");
+
+            foreach (var category in categories)
+            {
+                sb.AppendLine(string.Format(@"<option value=""{0}"">{1}</option>", category.CategoryId, category.Name));
+            }
+
+            sb.AppendLine("</select>");
+
+            return Content(sb.ToString(), "text/html");
+        }
+
+        public ContentResult GetTagsHtml()
+        {
+            var tags = _blogRepository.Tags().OrderBy(s => s.Name);
+
+            var sb = new StringBuilder();
+            sb.AppendLine(@"<select multiple=""multiple"">");
+
+            foreach (var tag in tags)
+            {
+                sb.AppendLine(string.Format(@"<option value=""{0}"">{1}</option>", tag.TagId, tag.Name));
+            }
+
+            sb.AppendLine("</select>");
+            return Content(sb.ToString(), "text/html");
+        }
+
         #endregion
 
     }
