@@ -18,6 +18,7 @@
                 'Category',
                 'Category',
                 'Tags',
+                'Meta',
                 'Url Slug',
                 'Published',
                 'Posted On',
@@ -136,6 +137,10 @@
                     rownumbers: true,
                     rownumwidth: 40,
                 
+                    // default sorting
+                    sortname: 'PostedOn',
+                    sortorder: 'desc',
+                    
                     // display the no. of records message
                     viewrecord: true,
 
@@ -162,8 +167,8 @@
             {
                 if (!ui.tab.isLoaded)
                 {
+                    debugger;
                     var gdMgr = Oba30.GridManager, fn, gridName, pagerName;
-                    
                     switch(ui.index)
                     {
                         case 0:
@@ -183,6 +188,7 @@
                             break;
                     }
 
+                    fn(gridName, pagerName);
                     ui.tab.isLoaded = true;
 
                 }

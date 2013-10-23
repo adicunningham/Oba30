@@ -16,6 +16,7 @@ namespace Oba30.Controllers
         public AdminController(IAuthProvider authProvider, IBlogRepository blogRepository = null)
         {
             _authProvider = authProvider;
+            _blogRepository = blogRepository;
         }
 
         /// <summary>
