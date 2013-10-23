@@ -20,7 +20,7 @@ namespace Oba30
                     month = post.PostedOn.Month,
                     title = post.UrlSlug
                 },
-                new { title = post.Tags});
+                new { title = post.Title});
         }
 
         public static MvcHtmlString CategoryLink(this HtmlHelper helper, Category category)
