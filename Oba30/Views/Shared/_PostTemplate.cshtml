@@ -24,7 +24,7 @@
             
                 <!-- DISPLAY THE COMMENTS COUNT -->
                   <div class="no-of-comments">
-                    <a href="@string.Format("{0}#disqus_thread", Model.Href(Url))"></a>
+                    <a href="@string.Format("{0}#disqus_thread", Model.Href(Url))" data-disqus-identifier="@Model.Href(Url)"></a>
                   </div>  
 
                 <!-- Posted Date -->
