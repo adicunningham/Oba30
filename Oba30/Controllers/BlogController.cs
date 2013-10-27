@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Configuration;
+using System.Linq;
+using System.ServiceModel.Syndication;
 using System.Web;
 using System.Web.Mvc;
+using Oba30.Helper;
 using Oba30.Infrastructure;
 using Oba30.Models;
 
@@ -87,5 +91,37 @@ namespace Oba30.Controllers
             var widgetViewModel = new WidgetViewModel(_blogRepository);
             return PartialView("_SideBars", widgetViewModel);
         }
+
+        public ActionResult Feed()
+        {
+            var blogTitle = ConfigurationManager.AppSettings["BlogTitle"];
+            var blogDescription = ConfigurationManager.AppSettings["BlogDescription"];
+            var blogUrl = ConfigurationManager.AppSettings["BlogUrl"];
+
+            // Create a collection of SyndicationItemObjects from the latest posts
+            var posts = _blogRepository.Posts(0, 25).Select
+                (
+                    p => new SyndicationItem
+                        (
+                        p.Title,
+                        p.Description,
+                        new Uri(string.Concat(blogUrl, p.Href(Url)))
+                        )
+                );
+
+            // Create an instane of SyndicationFeed class passing the SyndicationItem collection
+            var feed = new SyndicationFeed(blogTitle, blogDescription, new Uri(blogUrl), posts)
+            {
+                Copyright = new TextSyndicationContent(string.Format("Copyright © {0}", blogTitle)),
+                Language = "en-US"
+            };
+
+            // Format feed in RSS through Rss20FeedFormatter formatter
+            var feedFormatter = new Rss20FeedFormatter(feed);
+
+            // Call the custom action that write the feed to the response
+            return new FeedResult(feedFormatter);
+        }
+
     }
 }

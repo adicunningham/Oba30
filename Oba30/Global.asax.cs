@@ -1,7 +1,9 @@
 ﻿using System.Web.Mvc;
+using System.Web.Optimization;
 using System.Web.Routing;
 using Ninject;
 using Ninject.Web.Common;
+using Oba30.App_Start;
 using Oba30.Infrastructure;
 using Oba30.Infrastructure.Objects;
 using Oba30.ModelBinder;
@@ -35,6 +37,7 @@ namespace Oba30
 
         protected override void OnApplicationStarted()
         {
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             ModelBinders.Binders.Add(typeof(Post), new PostModelBinder(Kernel));
