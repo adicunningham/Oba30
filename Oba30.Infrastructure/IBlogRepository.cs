@@ -81,5 +81,24 @@ namespace Oba30.Infrastructure
         /// </summary>
         /// <param name="id"></param>
         void DeleteCategory(int id);
+
+        /// <summary>
+        /// Add tag
+        /// </summary>
+        /// <param name="tag"></param>
+        /// <returns></returns>
+        int AddTag(Tag tag);
+
+        /// <summary>
+        /// Edit a tag
+        /// </summary>
+        /// <param name="tag"></param>
+        void EditTag(Tag tag);
+
+        /// <summary>
+        /// Delete a tag
+        /// </summary>
+        /// <param name="id"></param>
+        void DeleteTag(int id);
     }
 }

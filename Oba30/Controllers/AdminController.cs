@@ -316,6 +316,90 @@ namespace Oba30.Controllers
 
             return Content(json, "application/json");
         }
+
+        public ContentResult Tags()
+        {
+            var tags = _blogRepository.Tags();
+
+            return Content(JsonConvert.SerializeObject(new
+            {
+                page = 1,
+                records = tags.Count,
+                rows = tags,
+                total = 1
+            }), "application/json");
+        }
+
+        [HttpPost]
+        public ContentResult AddTag([Bind(Exclude = "TagId")] Tag tag)
+        {
+            string json;
+
+            if (ModelState.IsValid)
+            {
+                var id = _blogRepository.AddTag(tag);
+                json = JsonConvert.SerializeObject(new
+                {
+                    id = id,
+                    success = true,
+                    message = "Tag added successfully."
+                });
+            }
+            else
+            {
+                json = JsonConvert.SerializeObject(new
+                {
+                    id = 0,
+                    success = false,
+                    message = "Failed to add the tag."
+                });
+            }
+
+            return Content(json, "application/json");
+        }
+
+        [HttpPost]
+        public ContentResult EditTag(Tag tag)
+        {
+            string json;
+
+            if (ModelState.IsValid)
+            {
+                _blogRepository.EditTag(tag);
+                json = JsonConvert.SerializeObject(new
+                {
+                    id = tag.TagId,
+                    success = true,
+                    message = "Changes saved successfully."
+                });
+            }
+            else
+            {
+                json = JsonConvert.SerializeObject(new
+                {
+                    id = 0,
+                    success = false,
+                    message = "Failed to save the changes."
+                });
+            }
+
+            return Content(json, "application/json");
+        }
+
+        [HttpPost]
+        public ContentResult DeleteTag(int id)
+        {
+            _blogRepository.DeleteTag(id);
+
+            var json = JsonConvert.SerializeObject(new
+            {
+                id = 0,
+                success = true,
+                message = "Tag deleted successfully."
+            });
+
+            return Content(json, "application/json");
+        }
         #endregion
     }
 }

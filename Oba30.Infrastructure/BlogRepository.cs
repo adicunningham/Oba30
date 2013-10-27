@@ -413,8 +413,51 @@ namespace Oba30.Infrastructure
         {
             using (var tran = _session.BeginTransaction())
             {
-                var category = _session.BeginTransaction();
+                var category = _session.Get<Category>(id);
                 _session.Delete(category);
+                tran.Commit();
+            }
+        }
+
+
+        /// <summary>
+        /// Add a new tag
+        /// </summary>
+        /// <param name="tag"></param>
+        /// <returns></returns>
+        public int AddTag(Tag tag)
+        {
+            using (var tran = _session.BeginTransaction())
+            {
+                _session.Save(tag);
+                tran.Commit();
+                return tag.TagId;
+            }
+        }
+
+        /// <summary>
+        /// Edit a tag
+        /// </summary>
+        /// <param name="tag"></param>
+        public void EditTag(Tag tag)
+        {
+            using (var tran = _session.BeginTransaction())
+            {
+                _session.SaveOrUpdate(tag);
+                tran.Commit();
+            }
+        }
+
+        /// <summary>
+        /// Delete a tag
+        /// </summary>
+        /// <param name="id"></param>
+        public void DeleteTag(int id)
+        {
+            using (var tran = _session.BeginTransaction())
+            {
+                var tag = _session.Get<Tag>(id);
+                _session.Delete(tag);
                 tran.Commit();
             }
         }
