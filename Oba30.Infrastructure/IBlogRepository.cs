@@ -49,5 +49,37 @@ namespace Oba30.Infrastructure
 
         int AddPost(Post post);
 
+        /// <summary>
+        /// Edit an existing post
+        /// </summary>
+        /// <param name="post"></param>
+        void EditPost(Post post);
+
+        /// <summary>
+        /// Delete a post.
+        /// </summary>
+        /// <param name="id"></param>
+        void DeletePost(int id);
+
+
+        /// <summary>
+        /// Add a Category
+        /// </summary>
+        /// <param name="category"></param>
+        /// <returns></returns>
+        int AddCategory(Category category);
+
+        /// <summary>
+        /// Edit a category
+        /// </summary>
+        /// <param name="category"></param>
+        void EditCategory(Category category);
+
+
+        /// <summary>
+        /// Delete a category
+        /// </summary>
+        /// <param name="id"></param>
+        void DeleteCategory(int id);
     }
 }

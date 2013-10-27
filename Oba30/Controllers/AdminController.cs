@@ -141,6 +141,51 @@ namespace Oba30.Controllers
             return Content(json, "application/json");
         }
 
+        [HttpPost, ValidateInput(false)]
+        public ContentResult EditPost(Post post)
+        {
+            string json;
+            
+            ModelState.Clear();
+
+            if (TryValidateModel(post))
+            {
+                _blogRepository.EditPost(post);
+                json = JsonConvert.SerializeObject(new 
+                {
+                    id = post.PostId,
+                    success = true,
+                    message = "Changes saved successfully."
+                });
+            }
+            else
+            {
+                json = JsonConvert.SerializeObject(new
+                {
+                    id = 0,
+                    success = false,
+                    message = "Failed to save the changes."
+                });
+            }
+
+            return Content(json, "application/json");
+        }
+
+        [HttpPost]
+        public ContentResult DeletePost(int id)
+        {
+            _blogRepository.DeletePost(id);
+
+            var json = JsonConvert.SerializeObject(new
+            {
+                id = 0,
+                success = true,
+                message = "Post deleted successfully."
+            });
+
+            return Content(json, "application/json");
+        }
+
         /// <summary>
         /// Returns Categories Html for the Categories dropdown on the tinyMCE Add post form.
         /// </summary>
@@ -180,5 +225,97 @@ namespace Oba30.Controllers
 
         #endregion
 
+        #region Admin Categories
+
+        /// <summary>
+        /// Returns a list of cateogories in Json format.
+        /// </summary>
+        /// <returns></returns>
+        public ContentResult Categories()
+        {
+            var categories = _blogRepository.Categories();
+
+            return Content(JsonConvert.SerializeObject(new
+            {
+                page = 1,
+                records = categories.Count,
+                rows = categories,
+                total = 1
+            }), "application/json");
+        }
+
+        [HttpPost]
+        public ContentResult AddCategory([Bind(Exclude = "CategoryId")] Category category)
+        {
+            string json;
+
+            if (ModelState.IsValid)
+            {
+                var id = _blogRepository.AddCategory(category);
+                json = JsonConvert.SerializeObject(new
+                {
+                    id = id,
+                    success = true,
+                    message = "Category added successfully."
+                });
+            }
+            else
+            {
+                {
+                    json = JsonConvert.SerializeObject(new
+                    {
+                        id = 0,
+                        success = false,
+                        message = "Failed to add the category."
+                    });
+                }
+            }
+            return Content(json, "application/json");
+        }
+
+        [HttpPost]
+        public ContentResult EditCategory(Category category)
+        {
+            string json;
+
+            if (ModelState.IsValid)
+            {
+                _blogRepository.EditCategory(category);
+                json = JsonConvert.SerializeObject(new
+                {
+                    id = category.CategoryId,
+                    success = true,
+                    message = "Changes saved successfully"
+                });
+            }
+            else
+            {
+                json = JsonConvert.SerializeObject(new
+                {
+                    id = 0,
+                    success = false,
+                    message = "Failed to save the changes."
+                });
+            }
+
+            return Content(json, "application/json");
+        }
+
+
+        [HttpPost]
+        public ContentResult DeleteCategory(int id)
+        {
+            _blogRepository.DeleteCategory(id);
+
+            var json = JsonConvert.SerializeObject(new
+            {
+                id = 0,
+                success = true,
+                message = "Category deleted successfully."
+            });
+
+            return Content(json, "application/json");
+        }
+        #endregion
     }
 }

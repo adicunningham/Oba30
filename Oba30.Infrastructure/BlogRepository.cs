@@ -347,5 +347,76 @@ namespace Oba30.Infrastructure
                 return post.PostId;
             }
         }
+
+        /// <summary>
+        /// Delete a post
+        /// </summary>
+        /// <param name="post"></param>
+        public void EditPost(Post post)
+        {
+            using (var tran = _session.BeginTransaction())
+            {
+                _session.SaveOrUpdate(post);
+                tran.Commit();
+            }
+        }
+
+
+        /// <summary>
+        /// Delete a post
+        /// </summary>
+        /// <param name="id"></param>
+        public void DeletePost(int id)
+        {
+            using (var tran = _session.BeginTransaction())
+            {
+                var post = _session.Get<Post>(id);
+                _session.Delete(post);
+                tran.Commit();
+            }
+        }
+
+        /// <summary>
+        /// Add a new Caetgory
+        /// </summary>
+        /// <param name="category"></param>
+        /// <returns></returns>
+        public int AddCategory(Category category)
+        {
+            using (var tran = _session.BeginTransaction())
+            {
+                _session.Save(category);
+                tran.Commit();
+                return category.CategoryId;
+            }
+        }
+
+
+        /// <summary>
+        /// Edit a category
+        /// </summary>
+        /// <param name="category"></param>
+        public void EditCategory(Category category)
+        {
+            using (var tran = _session.BeginTransaction())
+            {
+                _session.SaveOrUpdate(category);
+                tran.Commit();
+            }
+        }
+
+        /// <summary>
+        /// Delete a category
+        /// </summary>
+        /// <param name="id"></param>
+        public void DeleteCategory(int id)
+        {
+            using (var tran = _session.BeginTransaction())
+            {
+                var category = _session.BeginTransaction();
+                _session.Delete(category);
+                tran.Commit();
+            }
+        }
     }
 }

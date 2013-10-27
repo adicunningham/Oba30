@@ -10,7 +10,7 @@
             // columns
             var colNames =
             [
-                'Id',
+                'PostId',
                 'Title',
                 'Short Description',
                 'Description',
@@ -28,9 +28,10 @@
 
             columns.push(
                 {
-                    name: 'Id',
+                    name: 'PostId',
                     hidden: true,
-                    key: true
+                    key: true,
+                    editable: true,
                 });
 
             columns.push(
@@ -42,7 +43,7 @@
                     editoptions:
                     {
                         size: 43,
-                        maxlenght: 500
+                        maxlength: 500
                     },
                     editrules:
                     {
@@ -293,6 +294,13 @@
                 return [true];
             };
 
+            // AFter click Page buttons
+            var afterclickPgButtons = function (whichbutton, formid, rowid)
+            {
+                tinyMCE.get("ShortDescription").setContent(formid[0]["ShortDescription"].value);
+                tinyMCE.get("Description").setContent(formid[0]["Description"].value);
+            };
+
             // configuring add options for jqgrid.
             var addOptions =
             {
@@ -308,6 +316,33 @@
                 afterSubmit: Oba30.GridManager.afterSubmitHandler
             };
 
+            // configuring edit options for jqgird
+            var editOptions =
+            {
+                url: '/Admin/EditPost',
+                editCaption: 'Edit Post',
+                processData: "Saving...",
+                width: 900,
+                closeAfterEdit: true,
+                closeOnEscape: true,
+                afterclickPgButtons: afterclickPgButtons,
+                afterShowForm: afterShowForm,
+                onClose: onClose,
+                afterSubmit: Oba30.GridManager.afterSubmitHandler,
+                beforeSubmit: beforeSubmitHandler
+            };
+
+            // configruing delete options
+            var deleteOptions =
+            {
+                url: '/Admin/DeletePost',
+                caption: 'Delete Post',
+                processData: "Saving...",
+                msg: "Delete the Post?",
+                closeOnEscape: true,
+                afterSubmit: Oba30.GridManager.afterSubmitHandler
+            };
+
             // Add navigation toolbar to grid
             $(gridName).navGrid
             (   pagerName,
@@ -316,16 +351,153 @@
                     cloneToTop: true,
                     search: false
                 },
-                { }, // edit options
+                editOptions, // edit options
                 addOptions, // add options
-                { }  // delete options
+                deleteOptions  // delete options
             );
-            
-        },
+         },
         
         // function to create grid to manage categories
-        categoriesGrid: function (gridName, pagerName)
-        { },
+        categoriesGrid: function(gridName, pagerName)
+        {
+            var colNames = ['CategoryId', 'Name', 'Url Slug', 'Description'];
+
+            var columns = [];
+
+            columns.push(
+                {
+                    name: 'CategoryId',
+                    index: 'CategoryId',
+                    hidden: true,
+                    sorttype: 'int',
+                    key: true,
+                    editable: true,
+                    editoptions:
+                    {
+                        readonly: true
+                    }
+                });
+
+            columns.push({
+                name: 'Name',
+                index: 'Name',
+                width: 200,
+                editable: true,
+                edittype: 'text',
+                editoptions: {
+                    size: 30,
+                    maxlength: 50
+                },
+                editrules: {
+                    required: true
+                }
+            });
+
+            columns.push({
+                name: 'UrlSlug',
+                index: 'UrlSlug',
+                width: 200,
+                editable: true,
+                edittype: 'text',
+                sortable: false,
+                editoptions: {
+                    size: 30,
+                    maxlength: 50
+                },
+                editrules: {
+                    required: true
+                }
+            });
+
+            columns.push({
+                name: 'Description',
+                index: 'Description',
+                width: 200,
+                editable: true,
+                edittype: 'textarea',
+                sortable: false,
+                editoptions: {
+                    rows: "4",
+                    cols: "28"
+                }
+            });
+
+            $(gridName).jqGrid(
+                {
+                    url: '/Admin/Categories',
+                    datatype: 'json',
+                    mtype: 'GET',
+                    height: 'auto',
+                    toppager: true,
+                    colNames: colNames,
+                    colModel: columns,
+                    pager: pagerName,
+                    rownumbers: true,
+                    rownumwidth: 40,
+                    rowNum: 500,
+                    sortname: 'name',
+                    loadonce: true,
+                    jsonReader:
+                    {
+                        repeatitems: false
+                    }
+                });
+
+            // configuring the addOptions
+            var addOptions =
+            {
+                url: '/Admin/AddCategory',
+                width: 400,
+                addCaption: 'Add Category',
+                processData: "Saving...",
+                closeAfterAdd: true,
+                closeOnEscape: true,
+                afterSubmit: function (response, postdata)
+                {
+                    var json = $.parseJSON(response.responseText);
+
+                    if (json)
+                    {
+                        // since the data is in the client-side, reload the grid.
+                        $(gridName).jqGrid('setGridParam', { datatype: 'json' });
+                        return [json.success, json.message, json.id];
+                    }
+
+                    return [false, "Failed to get result from server.", null];
+                }
+            };
+
+            // configuring the editOptions
+            var editOptions =
+            {
+                url: '/Admin/EditCategory',
+                width: 400,
+                editCaption: 'Edit Category',
+                processData: "Saving...",
+                closeAfterEdit: true,
+                closeOnEscape: true,
+                afterSubmit: function(response, postdata)
+                {
+                    var json = $.parseJSON(response.responseText);
+                    
+                    if (json)
+                    {
+                        $(gridName).jqGrid('setGridParam', { dataype: 'json' });
+                        return [json.success, json.message, json.id];
+                    }
+
+                    return [false, "Failed to get result from server.", null];
+                }
+            }
+            
+            // configuring the navigation toolbar
+            $(gridName).jqGrid('navGrid', pagerName,
+                {
+                    cloneToTop: true,
+                    search: false
+                },
+                editOptions, addOptions, {});
+        },
         
         // function create grid to manage tags
         tagsGrid: function (gridName, pagerName)
@@ -334,18 +506,15 @@
         // function parses response to get for errors.
         afterSubmitHandler: function(response, postdata)
         {
-        var json = $.parseJSON(response.responseText);
+            var json = $.parseJSON(response.responseText);
 
-        if (json)
-            return [json.success, json.message, json.id];
+            if (json)
+                return [json.success, json.message, json.id];
 
-        return [false, "Failed to get result from server.", null];
-    }
+            return [false, "Failed to get result from server.", null];
+        }
 
     };
-    
-    
-
 
     $("#tabs").tabs(
         {
@@ -363,19 +532,18 @@
                             break;
                         case 1:
                             fn = gdMgr.categoriesGrid;
-                            gridName = "#tablePosts";
-                            pagerName = "#pagerPosts";
+                            gridName = "#tableCats";
+                            pagerName = "#pagerCats";
                             break;
                         case 2:
                             fn = gdMgr.tagsGrid;
-                            gridName = "#tablePosts";
-                            pagerName = "#pagerPosts";
+                            gridName = "#tableTags";
+                            pagerName = "#pagerTags";
                             break;
                     }
 
                     fn(gridName, pagerName);
                     ui.tab.isLoaded = true;
-
                 }
             }
         });
