@@ -1,4 +1,5 @@
-﻿@{
+﻿@using System.Web.Optimization
+@{
   Layout = null;
 }
 
@@ -9,30 +10,15 @@
     <meta name="viewport" content="width=device-width" />
     <title>Manage Posts, Categories and Tags</title>
 
-    <!-- jquery library -->
-    <script src="http://code.jquery.com/jquery-1.8.2.js"></script>
-
-    <!-- jquery ui library -->
-    <script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
-    <link href="/Content/themes/simple/jqueryuicustom/css/sunny/jquery-ui-1.9.2.custom.min.css" rel="stylesheet" />
-
-    <!-- jqgrid -->
-    <link href="/Scripts/jqgrid/css/ui.jqgrid.css" rel="stylesheet" />
-    <script src="/Scripts/jqgrid/js/jquery.jqGrid.min.js"></script>
-    <script src="/Scripts/jqgrid/js/i18n/grid.locale-en.js"></script>
-
-    <!-- tinyMCE -->
-    <script src="/Scripts/tiny_mce/tiny_mce.js"></script>
-
-    <link href="/Content/themes/simple/admin.css" rel="stylesheet" />
-    <script src="/Scripts/admin.js"></script>
+    @Styles.Render("~/Content/themes/simple/jqueryuicustom/css/sunny/bundle", "~/Scripts/jqgrid/css/bundle", "~/Content/themes/simple/admin")
+    @Scripts.Render("~/jquery", "~/jqueryui", "~/Scripts/tiny_mce/js", "~/manage/js")
 
 </head>
 <body>
 
     <!-- logout link -->
     <div style="text-align: right; margin-bottom: 5px;">
-        <a href="/Blog/Logout">logout</a>
+        <a href="/Admin/Logout">logout</a>
     </div>
 
     <h2>Manage Posts, Categories and Tags</h2>
