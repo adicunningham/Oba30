@@ -123,5 +123,10 @@ namespace Oba30.Controllers
             return new FeedResult(feedFormatter);
         }
 
+        public ActionResult BadAction()
+        {
+            throw new Exception("You forgot to implement this action!");
+        }
+
     }
 }
