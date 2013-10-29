@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Configuration;
 using System.Linq;
+using System.Net.Mail;
 using System.ServiceModel.Syndication;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using Oba30.Helper;
 using Oba30.Infrastructure;
+using Oba30.Infrastructure.Objects;
 using Oba30.Models;
 
 namespace Oba30.Controllers
@@ -123,10 +126,41 @@ namespace Oba30.Controllers
             return new FeedResult(feedFormatter);
         }
 
-        public ActionResult BadAction()
+
+        public ViewResult Contact()
         {
-            throw new Exception("You forgot to implement this action!");
+            return View();
         }
 
+        [HttpPost]
+        public ViewResult Contact(Contact contact)
+        {
+            if (ModelState.IsValid)
+            {
+                using (var client = new SmtpClient())
+                {
+                    var adminEmail = ConfigurationManager.AppSettings["AdminEmail"];
+                    var from = new MailAddress(adminEmail, "Oba 30 Messenger");
+                    var to = new MailAddress(adminEmail, "Oba30 Admin");
+
+                    using (var message = new MailMessage(from, to))
+                    {
+                        message.Body = contact.Body;
+                        message.IsBodyHtml = true;
+                        message.BodyEncoding = Encoding.UTF8;
+
+                        message.Subject = contact.Subject;
+                        message.SubjectEncoding = Encoding.UTF8;
+
+                        message.ReplyTo = new MailAddress(contact.Email);
+
+                        client.Send(message);
+                    }
+                }
+
+                return View("Thanks");
+            }
+            return View();
+        }
     }
 }

@@ -71,6 +71,7 @@
     <Compile Include="Mappings\PostMap.cs" />
     <Compile Include="Mappings\TagMap.cs" />
     <Compile Include="Objects\Category.cs" />
+    <Compile Include="Objects\Contact.cs" />
     <Compile Include="Objects\Post.cs" />
     <Compile Include="Objects\Tag.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
