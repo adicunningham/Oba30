@@ -44,26 +44,25 @@ namespace Oba30.App_Start
             bundles.Add(loginCssBundle);
 
             // Bundles for Manage page
-            // jQuery UI library bundle
+
+            // manage page bundles
             var jqueryUIBundle = new ScriptBundle("~/jqueryui", "http://ajax.aspnetcdn.com/ajax/jquery.ui/1.9.1/jquery-ui.min.js").Include("~/Scripts/jquery-ui.js");
-            bundles.Add(jqueryUIBundle );
- 
-            // CSS bundle
+            bundles.Add(jqueryUIBundle);
+
             var manageCssBundle = new StyleBundle("~/Scripts/jqgrid/css/bundle").Include("~/Scripts/jqgrid/css/ui.jqgrid.css");
             bundles.Add(manageCssBundle);
- 
-            // jQuery UI library CSS bundle
+
             var jqueryUICssBundle =
-                new StyleBundle("~/Content/themes/simple/jqueryuicustom/css/sunny/bundle")
-                .Include("~/Content/themes/simple/jqueryuicustom/css/sunny/jquery-ui-1.9.2.custom.css");
+            new StyleBundle("~/Content/themes/simple/jqueryuicustom/css/sunny/bundle").Include("~/Content/themes/simple/jqueryuicustom/css/sunny/jquery-ui-1.9.2.custom.css");
             bundles.Add(jqueryUICssBundle);
- 
-            // tinyMCE library bundle
+
             var tinyMceBundle = new ScriptBundle("~/Scripts/tiny_mce/js").Include("~/Scripts/tiny_mce/tiny_mce.js");
             bundles.Add(tinyMceBundle);
- 
-            // Other scripts
-            var manageJsBundle = new ScriptBundle("~/manage/js").Include("~/Scripts/jqgrid/js/jquery.jqGrid.js").Include("~/Scripts/jqgrid/js/i18n/grid.locale-en.js").Include("~/Scripts/admin.js");
+
+            var manageJsBundle = new ScriptBundle("~/manage/js")
+                .Include("~/Scripts/jqgrid/js/jquery.jqGrid.js")
+                .Include("~/Scripts/jqgrid/js/i18n/grid.locale-en.js")
+                .Include("~/Scripts/admin.js");
             bundles.Add(manageJsBundle);
         }
     }
